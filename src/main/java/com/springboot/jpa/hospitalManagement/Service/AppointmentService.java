@@ -5,12 +5,16 @@ import com.springboot.jpa.hospitalManagement.Repository.DoctorRepository;
 import com.springboot.jpa.hospitalManagement.Repository.PatientRepository;
 import com.springboot.jpa.hospitalManagement.dto.AppointmentResponseDto;
 import com.springboot.jpa.hospitalManagement.dto.CreateAppointmentRequestDto;
+import com.springboot.jpa.hospitalManagement.dto.UpdateAppointmentRequest;
 import com.springboot.jpa.hospitalManagement.entity.Appointment;
 import com.springboot.jpa.hospitalManagement.entity.Doctor;
 import com.springboot.jpa.hospitalManagement.entity.Patient;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ProblemDetail;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -51,6 +55,7 @@ public class AppointmentService {
                 .orElseThrow(() -> new EntityNotFoundException("Patient not found with ID: " + patientId));
         Doctor doctor = doctorRepository.findById(doctorId)
                 .orElseThrow(() -> new EntityNotFoundException("Doctor not found with ID: " + doctorId));
+
         Appointment appointment = Appointment.builder()
                 .reason(createAppointmentRequestDto.getReason())
                 .appointmentTime(createAppointmentRequestDto.getAppointmentTime())
@@ -78,8 +83,9 @@ public class AppointmentService {
     }
 
 
-    public List<AppointmentResponseDto> getAllAppointmentsOfDoctor(Long doctorId) {
-        Doctor doctor = doctorRepository.findById(doctorId).orElseThrow();
+    public List<AppointmentResponseDto> getAllAppointmentsOfDoctor(Long id) {
+        Doctor doctor = doctorRepository.findById(id).orElseThrow(()->
+                new EntityNotFoundException("doctor not found with id" + id));
 
         return doctor.getAppointments()
                 .stream()
@@ -88,4 +94,24 @@ public class AppointmentService {
     }
 
 
+    public List<AppointmentResponseDto> getAllAppointments(Integer pageNumber, Integer pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber , pageSize);
+         return appointmentRepository.findAllAppointments(pageable)
+                 .getContent()
+                 .stream()
+                 .map(appointment -> modelMapper.map(appointment , AppointmentResponseDto.class))
+                 .collect(Collectors.toList());
+    }
+
+    public AppointmentResponseDto updateAppointment(Long id, UpdateAppointmentRequest updateAppointmentRequest) {
+        Appointment appointment = appointmentRepository.findById(id).orElseThrow( ()->
+                new EntityNotFoundException("appointment not exist with id" + id) );
+
+        modelMapper.map(updateAppointmentRequest , appointment );
+
+        appointment = appointmentRepository.save(appointment);
+
+        return modelMapper.map(appointment , AppointmentResponseDto.class);
+
+    }
 }

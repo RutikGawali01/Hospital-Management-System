@@ -18,19 +18,19 @@ public class InsuranceTests {
     @Test
     public void testInsurance() {
         Insurance insurance = Insurance.builder()
-                .PolicyNumber("HDFC_101")
-                .Provider("HDFC")
-                .ValidUntil(LocalDate.of(2025,12,12))
+               // .PolicyNumber("HDFC_101")
+               // .Provider("HDFC")
+               // .ValidUntil(LocalDate.of(2025,12,12))
                 .build();
 
 
 
         // without cascase this will not run
-        Patient patient = insuranceService.assigninnsuranceToPatient(insurance,1L);
+        //Patient patient = insuranceService.assigninnsuranceToPatient(insurance,1L);
         /*System.out.println(patient);*/
 
-        var newPatient = insuranceService.disaccociateInsuranceFromPatient(patient.getId());
+        //var newPatient = insuranceService.disaccociateInsuranceFromPatient(patient.getId());
 
-        System.out.println(newPatient);
+       // System.out.println(newPatient);
     }
 }

@@ -62,7 +62,7 @@ public class Patient {
     //@OneToOne(cascade = {CascadeType.MERGE , CascadeType.PERSIST})// owning side
     /*@ToString.Exclude*/
     @OneToOne(cascade = {CascadeType.ALL}, orphanRemoval = true)
-    @JoinColumn(name = "patient_insurance_id")// this will not create automatic column name creation (<fieldName>_id)
+    @JoinColumn(name = "insurance_id")// this will not create automatic column name creation (<fieldName>_id)
     private Insurance insurance;
 
 

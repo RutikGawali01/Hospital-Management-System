@@ -1,5 +1,6 @@
 package com.springboot.jpa.hospitalManagement.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -11,3 +12,5 @@ public class CreateAppointmentRequestDto {
     private LocalDateTime appointmentTime;
     private String reason;
 }
+
+

@@ -1,21 +1,19 @@
 package com.springboot.jpa.hospitalManagement.dto;
 
 import com.springboot.jpa.hospitalManagement.entity.Department;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class DoctorResponseDto {
-    private Long id;
+public class DoctorRequestDto {
     private String name;
+
     private String specialization;
+
     private String email;
 
     private Set<Department> departments = new HashSet<>();
+
 }

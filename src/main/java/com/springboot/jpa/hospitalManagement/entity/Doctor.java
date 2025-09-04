@@ -1,5 +1,6 @@
 package com.springboot.jpa.hospitalManagement.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,17 +29,16 @@ public class Doctor {
     private String name;
 
     @Column(nullable = false, length = 100)
-    private String Specialization;
+    private String specialization;
 
     @Column(nullable = false,unique = true,length = 100)
     private String email;
 
 
     @ManyToMany(mappedBy = "doctors")
+    @JsonIgnore
     private Set<Department> departments = new HashSet<>();
 
     @OneToMany(mappedBy = "doctor")
     private List<Appointment> appointments = new ArrayList<>();
-
-
 }

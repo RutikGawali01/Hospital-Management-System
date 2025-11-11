@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class InsuranceRequest {
+    private Long id;
 
     private Long patientId;
 

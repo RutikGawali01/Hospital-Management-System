@@ -17,5 +17,17 @@ public class DoctorResponseDto {
     private String specialization;
     private String email;
 
+    private int age;
+
+    private String gender;
+
+    private Long phone;
+
+    private String experience;
+
+    private String address;
+
+    private String qualifications;
+
     private Set<Department> departments = new HashSet<>();
 }

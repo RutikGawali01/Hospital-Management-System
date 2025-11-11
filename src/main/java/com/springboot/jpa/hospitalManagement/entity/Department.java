@@ -24,6 +24,16 @@ public class Department {
     @OneToOne
     private Doctor headDoctor;
 
+    private String location;
+
+    private String email;
+
+    @Column(nullable = false)
+    private int phone;
+
+    private int budget;
+
+    private String description;
 
     @ManyToMany// this will create another joint table with fk , and pk
     @JoinTable(

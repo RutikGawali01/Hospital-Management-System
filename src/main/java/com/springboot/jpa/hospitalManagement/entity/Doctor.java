@@ -34,6 +34,25 @@ public class Doctor {
     @Column(nullable = false,unique = true,length = 100)
     private String email;
 
+    @Column(nullable = false)
+    private int age;
+
+    @Column(nullable = false)
+    private String gender;
+
+    @Column(nullable = false , unique = true)
+    private Long phone;
+
+    @Column(nullable = false)
+    private String experience;
+
+    @Column(nullable = false)
+    private String address;
+
+    @Column(nullable = false)
+    private String qualifications;
+
+
 
     @ManyToMany(mappedBy = "doctors")
     @JsonIgnore
@@ -41,4 +60,8 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor")
     private List<Appointment> appointments = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital;
 }

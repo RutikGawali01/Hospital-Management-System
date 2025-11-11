@@ -39,6 +39,7 @@ public class InsuranceService {
         Insurance insurance = modelMapper.map(insuranceRequest , Insurance.class);
         insurance.setId(null);
         insurance.setCreatedAt(LocalDateTime.now());
+        insurance.setProvider(insuranceRequest.getProvider());
         patient.setInsurance(insurance);// without saving it will just bcz of cascading
         insurance.setPatient(patient);
         patientRepository.save(patient);

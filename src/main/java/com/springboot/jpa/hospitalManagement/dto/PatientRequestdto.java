@@ -14,6 +14,10 @@ public class PatientRequestdto {
     private String gender;
     private String email;
 
+    private String address;
+    private int age;
+    private Long phone;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")// We use @JsonFormat to tell Jackson how to convert between JSON and Java object
     // by using above line string in converted into localdate
     private LocalDate birthDate;

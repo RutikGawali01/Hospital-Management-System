@@ -59,14 +59,27 @@ public class AppointmentService {
         Appointment appointment = Appointment.builder()
                 .reason(createAppointmentRequestDto.getReason())
                 .appointmentTime(createAppointmentRequestDto.getAppointmentTime())
+                .status(createAppointmentRequestDto.getStatus())
                 .build();
 
         appointment.setPatient(patient);
         appointment.setDoctor(doctor);
+
         patient.getAppointments().add(appointment); // to maintain consistency
 
         appointment = appointmentRepository.save(appointment);
-        return modelMapper.map(appointment, AppointmentResponseDto.class);
+
+        AppointmentResponseDto responseDto = new AppointmentResponseDto();
+
+        responseDto.setId(appointment.getId());
+        responseDto.setAppointmentTime(appointment.getAppointmentTime());
+        responseDto.setReason(appointment.getReason());
+        responseDto.setStatus(appointment.getStatus());
+        responseDto.setDoctorid(appointment.getDoctor().getId());
+        responseDto.setPatientid(appointment.getPatient().getId());
+
+
+        return responseDto;
     }
 
     @Transactional

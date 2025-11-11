@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Setter
 public class InsuranceResponse {
 
+    private Long id;
     private Long patientId;
     private String policyNumber;
 

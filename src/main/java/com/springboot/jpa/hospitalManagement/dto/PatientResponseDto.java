@@ -16,4 +16,7 @@ public class PatientResponseDto {
     private LocalDate birthDate;
     private BloodGroupType bloodGroup;
     private LocalDateTime createdAt;
+    private String address;
+    private int age;
+    private Long phone;
 }

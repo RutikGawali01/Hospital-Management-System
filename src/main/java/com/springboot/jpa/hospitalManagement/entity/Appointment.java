@@ -23,6 +23,9 @@ public class Appointment {
     @Column(precision = 500)
     private String reason;
 
+    @Column(nullable = false)
+    private String status;
+
     @ManyToOne // owning side  -> Many appointment to one patient
     @JoinColumn(name = "patient_id" , nullable = false)// nullable = false  is bcz  Patient is required in every  appointment
     @ToString.Exclude

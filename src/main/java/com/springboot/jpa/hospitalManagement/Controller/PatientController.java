@@ -20,6 +20,7 @@ public class PatientController {
     private final AppointmentService appointmentService;
 
 
+
     // register new patient
     @PostMapping("/register")
     private ResponseEntity<PatientResponseDto> registerNewPatient(@RequestBody PatientRequestdto patientRequestdto){

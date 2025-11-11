@@ -6,11 +6,13 @@ import com.springboot.jpa.hospitalManagement.dto.InsuranceResponse;
 import com.springboot.jpa.hospitalManagement.dto.PatientRequestdto;
 import com.springboot.jpa.hospitalManagement.dto.PatientResponseDto;
 import com.springboot.jpa.hospitalManagement.entity.Appointment;
+import com.springboot.jpa.hospitalManagement.entity.Hospital;
 import com.springboot.jpa.hospitalManagement.entity.Patient;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 /*import org.springframework.data.domain.PageRequest;*/
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -55,13 +57,27 @@ public class PatientService {
         return modelMapper.map(patient, PatientResponseDto.class);
     }
 
-    public List<PatientResponseDto> getAllPatients(Integer pageNumber, Integer pageSize) {
+
+    /*public List<PatientResponseDto> getAllPatients(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return patientRepository.findAllPatients(pageable)  //Calls the repository to fetch patients with pagination (based on page number & size). and  return patients with metadata
                 .getContent()      //Extracts only the list of Patient entities from that Page object (ignores metadata for now).
                 .stream()   //Converts that list into a Java Stream so we can process each patient one by one.
                 .map(patient -> modelMapper.map(patient, PatientResponseDto.class))     //For every Patient entity, it converts (maps) it into a PatientResponseDto.
                 .collect(Collectors.toList());  //Collects all those mapped DTOs into a new List<PatientResponseDto>.
+    }*/
+
+    public List<PatientResponseDto> getAllPatients(Integer pageNumber, Integer pageSize) {
+        Hospital hospital = (Hospital) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Long hospitalId = hospital.getId();
+
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+
+        return patientRepository.findAllByHospitalId(hospitalId, pageable)  // fetch only patients for this hospital
+                .getContent()
+                .stream()
+                .map(patient -> modelMapper.map(patient, PatientResponseDto.class))
+                .collect(Collectors.toList());
     }
 
     /*this is useful for small dataset
@@ -86,6 +102,7 @@ public class PatientService {
     public PatientResponseDto updatePatient(long id, PatientRequestdto patientRequestdto) {
         Patient patient = patientRepository.findById(id).orElseThrow(() ->
                 new EntityNotFoundException("Patient not exist with id" + id));
+
 
         modelMapper.map(patientRequestdto , patient);// copies matching fields from patientRequest → patient.
 

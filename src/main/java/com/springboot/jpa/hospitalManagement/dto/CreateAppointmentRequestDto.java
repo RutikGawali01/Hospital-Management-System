@@ -11,6 +11,7 @@ public class CreateAppointmentRequestDto {
     private Long patientId;
     private LocalDateTime appointmentTime;
     private String reason;
+    private String status;
 }
 
 

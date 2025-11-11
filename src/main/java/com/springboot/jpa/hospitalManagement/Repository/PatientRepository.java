@@ -1,6 +1,7 @@
 package com.springboot.jpa.hospitalManagement.Repository;
 
 import com.springboot.jpa.hospitalManagement.dto.BloodGroupCountResponseEntity;
+import com.springboot.jpa.hospitalManagement.entity.Hospital;
 import com.springboot.jpa.hospitalManagement.entity.Patient;
 import com.springboot.jpa.hospitalManagement.entity.type.BloodGroupType;
 import org.springframework.data.domain.Page;
@@ -73,5 +74,10 @@ public interface PatientRepository extends JpaRepository<Patient , Long> {
 
     @Query(value = "select * from patient", nativeQuery = true)
     Page<Patient> findAllPatients(Pageable pageable);
+
+
+    List<Patient> findByHospital(Hospital hospital);
+
+    Page<Patient> findAllByHospitalId(Long hospitalId, Pageable pageable);
 
 }

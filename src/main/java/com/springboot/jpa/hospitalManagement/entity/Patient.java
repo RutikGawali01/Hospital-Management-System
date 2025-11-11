@@ -49,6 +49,11 @@ public class Patient {
 
     private String gender;
 
+    private Long phone;
+
+    private int age;
+
+    private String address;
 
     @CreationTimestamp //
     @Column(updatable = false)//creation time  can not change
@@ -70,4 +75,9 @@ public class Patient {
     @OneToMany(mappedBy = "patient" , cascade = {CascadeType.REMOVE} , orphanRemoval = true  , fetch =  FetchType.EAGER) // one patient to many appointment
     /*@ToString.Exclude*/   // this is bcz it will throw error if i want to print patient with its insurance
     private List<Appointment> appointments = new ArrayList<>(); // list id bcz there can be multiple appointmnet for single patient
+
+    @ManyToOne
+    @JoinColumn(name = "hospital_id")
+    private Hospital hospital; // links patient to a hospital
+
 }
